@@ -1,0 +1,366 @@
+---
+layout: getting_started
+title: 2 Tipos básicos
+guide: 2
+---
+
+# {{ page.title }}
+
+Neste capítulo aprenderemos mais sobre os tipos básicos do Elixir: integers, floats, atoms, lists e strings. Alguns tipos básicos são:
+
+```iex
+iex> 1          # integer
+iex> 0x1F       # integer
+iex> 1.0        # float
+iex> :atom      # atom / symbol
+iex> "elixir"   # string
+iex> [1, 2, 3]  # list
+iex> {1, 2, 3}  # tuple
+```
+
+## 2.1 Aritmética básica
+
+Abra o `iex` e entre com as seguintes expressões:
+
+```iex
+iex> 1 + 2
+3
+iex> 5 * 5
+25
+iex> 10 / 2
+5.0
+```
+
+Note que `10 / 2` retorna um ponto-flutuante (float) `5.0` ao invés de um inteiro `5`. Isto é esperado. No Elixir, o operador '/' sempre retorna um ponto-flutuante. Se você quer uma divisão inteira ou obter o resto, você pode chamar as funções `div` e `rem`:
+
+```iex
+iex> div(10, 2)
+5
+iex> div 10, 2
+5
+iex> rem 10, 3
+1
+```
+
+Note que os parênteses não são obrigatórios na chamada da função.
+
+Elixir também suporta notações para a entrada de números binários, octais e hexadecimais:
+
+```iex
+iex> 0x1F
+31
+iex> 0777
+511
+iex> 0b1010
+10
+```
+
+Números de ponto-flutuante exigem um ponto seguido de pelo menos um dígito e também suportam `e` para o expoente:
+
+```iex
+iex> 1.0
+1.0
+iex> 1.0e-10
+1.0e-10
+```
+
+Pontos-flutuantes em Elixir são 64 bits de dupla precisão.
+
+## 2.2 Booleanos
+
+Elixir suporta `true` e `false` como booleanos.
+
+```iex
+iex> true
+true
+iex> true == false
+false
+```
+
+Elixir fornece vários funções de predicado para verificar o tipo de um valor.  Por exemplo, a função `is_boolean/1` pode ser utilizada para verificar se um valor é boolean ou não:
+
+> Nota: Funções em Elixir são identificadas pelo nome e pelo número de argumentos (aridade). Portanto, `is_boolean/1` identifica uma função cujo nome é `is_boolean` que recebe 1 (um) argumento. `is_boolean/2`, por sua vez, identifica uma outra função (que por sinal não existe) com o mesmo nome mas com uma aridade diferente.
+
+```iex
+iex> is_boolean(true)
+true
+iex> is_boolean(1)
+false
+```
+
+Você tambem pode usar `is_integer/1`, `is_float/1` ou `is_number/1` para verificar, respectivamente, se um argumento é um inteiro, um ponto-flutuante ou qualquer um deles.
+
+> Nota: a qualquer momento você pode entrar com `h` no shell para mostrar informações de como usar o shell. O facilitador `h` pode também ser utilizaro para acessar a documentação de qualquer função. Por exemplo, entrar com `h is_integer/1` vai mostrar a documentaçao da função `is_integer/1`. O mesmo funciona para operadores e outras construções (tente `h ==/2`).
+
+## 2.3 Atoms
+
+Atoms são constantes onde seu nome é seu próprio valor. Algumas outras linguagens os chamam de símbolos.
+
+
+```iex
+iex> :ola
+:ola
+iex> :ola == :mundo
+false
+```
+
+Os booleanos `true` e `false` são, na verdade, atoms:
+
+```iex
+iex> true == :true
+true
+iex> is_atom(false)
+true
+```
+
+## 2.4 Strings
+
+String em Elixir são inseridas entre aspas-duplas, e são codificadas en UTF-8:
+
+```iex
+iex> "ölá"
+"ölá"
+```
+
+Elixir também suporte interpolação de string:
+
+```iex
+iex> "ölá #{:mundo}"
+"ölá mundo"
+```
+
+String podem conter quebra de linha ou introduzí-las utilizando uma sequencia de escape:
+
+```iex
+iex> "ola
+...> mundo"
+"ola\nmundo"
+iex> "ola\nmundo"
+"ola\nmundo"
+```
+
+Você pode imprimir uma string utilizando a função `IO.puts/1` do módulo `IO`:
+
+```iex
+iex> IO.puts "ola\nmundo"
+ola
+mundo
+:ok
+```
+
+Note que a função `IO.puts/1` retorna o atom `:ok` como resultado depois da impressão.
+
+String em Elixir são reprensentadas internamento por binários que são sequencias de bytes:
+
+```iex
+iex> is_binary("ölá")
+true
+```
+
+Podemos também obter o número de bytes em uma string:
+
+```iex
+iex> byte_size("ölá")
+5
+```
+
+Note que o número de bytes nesta string é 5, mesmo ele tendo 3 caracteres. Isto é porque os caracteres "ö" e "á" usam 2 bytes para serem representados em UTF-8. Nós podemos obter o comprimento de uma string, baseado no seu número de caracteres, utilizando a função `String.length/1`: 
+
+```iex
+iex> String.length("ölá")
+3
+```
+
+O [módulo String](/docs/stable/String.html) contém várias funções que operam sobre string como definido pelo padrão Unicode:
+
+```iex
+iex> String.upcase("ölá")
+"ÖLÁ"
+```
+
+Tenha em mente que strings com `aspa-simples` e `aspas-duplas` não são equivalentes em Elixir já que elas são representadas por diferentes tipos:
+
+```iex
+iex> 'ölá' == "ölá"
+false
+```
+
+Falaremos mais sobre suporte Unicode e a diferença entre strings com aspas simples e duplas no capítulo "Binários, strings e listas de caracteres".
+
+## 2.5 Funções anônimas
+
+Funções são delimitadas pelas palavras-chave `fn` e `end`:
+
+```iex
+iex> adiciona = fn a, b -> a + b end
+#Function<12.71889879/2 in :erl_eval.expr/5>
+iex> is_function(adiciona)
+true
+iex> is_function(adiciona, 2)
+true
+iex> is_function(adiciona, 1)
+false
+iex> adiciona.(1, 2)
+3
+```
+
+Funções são "cidadãos de primeira-classe" em Elixir o que significa que elas podem ser passadas como argumento para outras funções assim como inteiros e strings são. No exemplo, passamos a função na variável `adiciona` para a função
+`is_function/1` que corretamente retornou `true`. Nós podemos verificar a aridade da função chamando `is_function/2`.
+
+Note que um ponto (`.`) entre a variável e o parenteses é necessário para
+invocar a fução anônima.
+
+Funções anônimas são clausuras, e assim sendo elas podem acessar variáveis que
+estão no escopo quando a função é definida:
+
+```iex
+iex> adiciona_dois = fn a -> adiciona.(a, 2) end
+#Function<6.71889879/1 in :erl_eval.expr/5>
+iex> adiciona_dois.(2)
+4
+```
+
+Tenha em mente que uma variável atribuída dentro de uma função não afeta o
+ambiente em volta dela:
+
+```iex
+iex> x = 42
+42
+iex> (fn -> x = 0 end).()
+0
+iex> x
+42
+```
+
+## 2.6 Listas (Encadeadas)
+
+Elixir usa colchetes para especificar uma lista de valores. Valores podem ser de
+qualquer tipo:
+
+```iex
+iex> [1, 2, true, 3]
+[1, 2, true, 3]
+iex> length [1, 2, 3]
+3
+```
+
+Duas listas podem ser concatenadas ou subtraidas utilizando os operadores `++/2`
+e `--/2`:
+
+```iex
+iex> [1, 2, 3] ++ [4, 5, 6]
+[1, 2, 3, 4, 5, 6]
+iex> [1, true, 2, false, 3, true] -- [true, false]
+[1, 2, 3, true]
+```
+
+Através do tutorial, nós falaremos muito sobre head (cabeça) e tail (cauda) de uma lista. O head é o primeiro elemento de uma lista, enquanto tail é o resto de uma lista. Eles podem ser obtidos com as funções `hd/1` e `tl/1`. Vamos atribuir uma lista a uma variável e recuperar seu head e tail:
+
+```iex
+iex> list = [1,2,3]
+iex> hd(list)
+1
+iex> tl(list)
+[2, 3]
+```
+
+Obter o head ou o tail de uma lista vazia é um erro:
+
+```iex
+iex> hd []
+** (ArgumentError) argument error
+```
+
+Oops!
+
+## 2.7 Tuplas
+
+Elixir utiliza chaves para definir tuplas. Assim como as listas, tuplas podem
+conter qualquer valor:
+
+```iex
+iex> {:ok, "ola"}
+{:ok, "ola"}
+iex> size {:ok, "ola"}
+2
+```
+
+Tuplas armazenam elementos na memoria de forma continua. Isto significa que
+acessar um elemento de uma uma tupla pelo seu índice ou obter o tamanho de uma
+tupla são operações rápidas (idices iniciam a partir do zero):
+
+```iex
+iex> tuple = {:ok, "ola"}
+{:ok, "ola"}
+iex> elem(tuple, 1)
+"ola"
+iex> tuple_size(tuple)
+2
+```
+
+Também é possivel definir um elemento em uma posição específica em um tupla com
+`set_elem/3`
+
+```iex
+iex> tuple = {:ok, "ola"}
+{:ok, "ola"}
+iex> set_elem(tuple, 1, "mundo")
+{:ok, "mundo"}
+iex> tuple
+{:ok, "ola"}
+```
+
+Note que `set_elem/2` retorna uma nova tupla. A tupla original armazenada na variável `tuple` não foi modificada porque os tipos de dados em Elixir são imutáveis. Sendo imutáveis, o código em Elixir torna-se fácil de entender tendo em vista que você nunca precisará se preocupar se um codifo em particular esta modificando sua estrutura de dados "in-place".
+
+Sendo imutável, Elixir também elimina os casos comuns onde códigos concorrentes possuem "race-condition" porque duas entidades diferentes estão tentando modificar uma mesma estrutura de dados ao mesmo tempo.
+
+## 2.8 Lists or tuples?
+
+Qual a diferença entre listas e tuplas?
+
+Listas são armazenadas na memória como listas encadeadas. Isto significa que cada elemente em um alista aponta para o próximo elemento, e então o próximo elemente aponta para o próximo, até que o final da lista é encontrado. Chamamos cada um desses pares em um lista de **cons cell**:
+
+```iex
+iex> list = [1|[2|[3|[]]]]
+[1, 2, 3]
+```
+
+Isto significa que acessar o comprimento de uma lista é uma operação linear: precisamos percorrer toda a lista a fim de descobrir seu tamanho. Atualizar uma lista é uma rápida tanto enquanto estamos adicionando elementos no começo da lista:
+
+```iex
+iex> [0] ++ list
+[0, 1, 2, 3]
+iex> list ++ [4]
+[1, 2, 3, 4]
+```
+
+A primeira operação é rapida porque estamos simplesmente adicionando um novo "cons" que aponta para o restante de `list`. A segunda é lenta porque precisamos reconstruir toda a lista e então adicionar um novo elemento no fim.
+
+Tuplas, por outro lado, são armazenadas de forma contínua na memória. Isto significa que obter o tamanho da tupla ou acessar um elemento pelo índice é rápido. Entretanto, atualizar ou adicionar elementos nas tuplas é custoso porque é necessário copiar toda a tupla em memória.
+
+Estas características de desempenho determina o uso destas estruturas de dados.  Um caso de uso bem comum para tuplas é utilizá-las para retornar informações extra a parder de uma função. Por exemplo, `File.read/1` é uma função que pode ser utilizada para ler o conteúdo de arquivos e ela retorna tuplas:
+
+
+```iex
+iex> File.read("caminho/para/arquivo_existente")
+{:ok, "... conteudos ..."}
+iex> File.read("caminho/para/arquivo_desconhecido")
+{:error, :enoent}
+```
+
+Se o caminho dado para `File.read/'` existe, ele retorna uma tupla com o atom `:ok` como o primeiro elemento e o conteúdo do arquivo como o segundo. Do contrário, ele retorna uma tupla com `:error` e a razão do erro.
+
+Boa parte do tempo, Elixir está conduzindo você para o caminho correto. Por exemplo, existe uma função `elem/2` para acessar um item de uma tupla mas não existe uma função nativa equivalente para listas:
+
+```iex
+iex> tuple = {:ok, "ola"}
+{:ok, "ola"}
+iex> elem(tuple, 1)
+"ola"
+```
+
+Quanto "contamos" o número de elementos em uma estrutura de dados, Elixir também sustenta uma regra simples: a função precisa ser nomeada `size` se a operação ocorre em tempo constante (por exemplo o valor é pré-calculado) ou `length` se a operação requer uma comtabilização explícita. 
+
+Por exemplo, até então utilizamos 4 funções contadoras: `byte_size/1` (para o número de bytes em uma string), `tuple_size/1` (para o tamanho da tupla), `length/1` (para o comprimento da lista) e `String.length/1` (para o numero de caracteres em uma string). Dito isto, nos usamos `byte_size` para obter o número de bytes em uma string, o que é barato, mas obter o número de caracteres unicode utiliza `String.length`, tendo em vista que toda a string precisa ser percorrida.
+
+Elirix também fornece `Port`, `Reference` e `PID` como tipos de dados (geralmente utilizados em comunicação de processos), e vamos dar uma rápida olhada neles wuando falarmos sobre processos. Por hora, vamos dar uma olhada em alguns dos operadores básicos que vem com nossos tipos básicos.
