@@ -1,0 +1,126 @@
+---
+layout: getting_started
+title: 3 Operadores básicos
+guide: 3
+---
+
+# {{ page.title }}
+
+No capítulo anterior, vimos que Elixir fornece `+`, `-`, `*`, `/` como
+operadores aritméticos, assim como as funções `div/2` e `rem/2` para divisões
+inteiras e com resto.
+
+Elixir também fornece `++` e `--` para manipular listas:
+
+```iex
+iex> [1,2,3] ++ [4,5,6]
+[1,2,3,4,5,6]
+iex> [1,2,3] -- [2]
+[1,3]
+```
+
+Concatenação de string é feita com `<>`:
+
+```iex
+iex> "foo" <> "bar"
+"foobar"
+```
+
+Elixir também fornece três operadores booleanos: `or`, `and` e `not`. Estes
+operadores são rigorosos no sentido que eles experam um booleano (`true` ou
+`false`) como primeiro argumento:
+
+```iex
+iex> true and true
+true
+iex> false or is_atom(:exemplo)
+true
+```
+
+Caso seja fornecido um valor não booleano uma exceção será emitida:
+
+```iex
+iex> 1 and true
+** (ArgumentError) argument error
+```
+
+`or` e `and` são operadores de curto-circuito, ou seja, eles apenas executam o lado direito da operação se o lado esquerdo não for suficiente para determinar o resultado:
+
+```iex
+iex> false and error("Este erro jamais será emitido")
+false
+
+iex> true or error("Este erro jamais será emitido")
+true
+```
+
+> Nota: Se você é um desenvolvedor Erlang, `and` e `or` em Elixir na verdade mapeiam para os operadores `andalso` e `orelse` do Erlang.
+
+
+Além destes operadores booleanos, o Elixir também fornece os operadores `||`, `&&` e `!` que aceitam argumentos de qualquer tipo. Para estes operadores todos os valores, exceto `false` e `nil`, são avaliados como `true`:
+
+```iex
+# or
+iex> 1 || true
+1
+iex> false || 11
+11
+
+# and
+iex> nil && 13
+nil
+iex> true && 17
+17
+
+# !
+iex> !true
+false
+iex> !1
+false
+iex> !nil
+true
+```
+
+Como uma regra de ouro, use `and`, `or` e `not` quando estiver esperando
+booleanos. Se qualquer um dos argumentos for não-booleano, use `&&`, `||` e `!`.
+
+Elixir também fornece os operadores de comparação `==`, `!=`, `===`, `!==`, `<=`, `>=`, `<` e `>`:
+
+```iex
+iex> 1 == 1
+true
+iex> 1 != 2
+true
+iex> 1 < 2
+true
+```
+
+A diferença entre `==` e `===` é que o último é mais rigoroso quando compara
+integers e floats:
+
+```iex
+iex> 1 == 1.0
+true
+iex> 1 === 1.0
+false
+```
+
+No Elixir podemos comparar dois tipos de dados diferentes:
+
+```iex
+iex> 1 < :atom
+true
+```
+
+O motivo pelo qual conseguimos comprar diferente tipos de dados é pragmatismo.
+Algoritmos de ordenação não precisam se preocupar com os diferentes dipos de
+dados a fim de ordenar. A ordem geral de classificação é definida conforme:
+
+    number < atom < reference < functions < port < pid < tuple < maps < list < bitstring
+
+Na verdade você não precisa memorizar esta ordenação, mas é importante saber que
+uma ordem exist.
+
+Bem, é isto que temos para a introdução. No próximo capítulo nós discutiremos
+algumas funções básicas, conversões de tipos de dados e um pouco de controle de
+fluxo.
