@@ -6,9 +6,7 @@ guide: 3
 
 # {{ page.title }}
 
-No capítulo anterior, vimos que Elixir fornece `+`, `-`, `*`, `/` como
-operadores aritméticos, assim como as funções `div/2` e `rem/2` para divisões
-inteiras e com resto.
+No capítulo anterior, vimos que Elixir fornece `+`, `-`, `*`, `/` como operadores aritméticos, assim como as funções `div/2` e `rem/2` para divisões inteiras e com resto.
 
 Elixir também fornece `++` e `--` para manipular listas:
 
@@ -26,9 +24,7 @@ iex> "foo" <> "bar"
 "foobar"
 ```
 
-Elixir também fornece três operadores booleanos: `or`, `and` e `not`. Estes
-operadores são rigorosos no sentido que eles experam um booleano (`true` ou
-`false`) como primeiro argumento:
+Elixir também fornece três operadores booleanos: `or`, `and` e `not`. Estes operadores são rigorosos no sentido que eles experam um booleano (`true` ou `false`) como primeiro argumento:
 
 ```iex
 iex> true and true
@@ -56,7 +52,6 @@ true
 
 > Nota: Se você é um desenvolvedor Erlang, `and` e `or` em Elixir na verdade mapeiam para os operadores `andalso` e `orelse` do Erlang.
 
-
 Além destes operadores booleanos, o Elixir também fornece os operadores `||`, `&&` e `!` que aceitam argumentos de qualquer tipo. Para estes operadores todos os valores, exceto `false` e `nil`, são avaliados como `true`:
 
 ```iex
@@ -81,8 +76,7 @@ iex> !nil
 true
 ```
 
-Como uma regra de ouro, use `and`, `or` e `not` quando estiver esperando
-booleanos. Se qualquer um dos argumentos for não-booleano, use `&&`, `||` e `!`.
+Como uma regra de ouro, use `and`, `or` e `not` quando estiver esperando booleanos. Se qualquer um dos argumentos for não-booleano, use `&&`, `||` e `!`.
 
 Elixir também fornece os operadores de comparação `==`, `!=`, `===`, `!==`, `<=`, `>=`, `<` e `>`:
 
@@ -95,8 +89,7 @@ iex> 1 < 2
 true
 ```
 
-A diferença entre `==` e `===` é que o último é mais rigoroso quando compara
-integers e floats:
+A diferença entre `==` e `===` é que o último é mais rigoroso quando compara integers e floats:
 
 ```iex
 iex> 1 == 1.0
@@ -112,15 +105,10 @@ iex> 1 < :atom
 true
 ```
 
-O motivo pelo qual conseguimos comprar diferente tipos de dados é pragmatismo.
-Algoritmos de ordenação não precisam se preocupar com os diferentes dipos de
-dados a fim de ordenar. A ordem geral de classificação é definida conforme:
+O motivo pelo qual conseguimos comprar diferente tipos de dados é pragmatismo.  Algoritmos de ordenação não precisam se preocupar com os diferentes dipos de dados a fim de ordenar. A ordem geral de classificação é definida conforme:
 
     number < atom < reference < functions < port < pid < tuple < maps < list < bitstring
 
-Na verdade você não precisa memorizar esta ordenação, mas é importante saber que
-uma ordem exist.
+Na verdade você não precisa memorizar esta ordenação, mas é importante saber que uma ordem exist.
 
-Bem, é isto que temos para a introdução. No próximo capítulo nós discutiremos
-algumas funções básicas, conversões de tipos de dados e um pouco de controle de
-fluxo.
+Bem, é isto que temos para a introdução. No próximo capítulo nós discutiremos algumas funções básicas, conversões de tipos de dados e um pouco de controle de fluxo.
